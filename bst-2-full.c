@@ -161,12 +161,12 @@ void levelOrder(Node* ptr) //레벨 순서 순회 히여 출력
 	// int front = rear = -1;
 
 	if(!ptr) return; /* empty tree */
+ 
+	enQueue(ptr); //enQueue 함수에 매개변수 ptr
 
-	enQueue(ptr);
-
-	for(;;)
+	for(;;) //반복
 	{
-		ptr = deQueue();
+		ptr = deQueue(); 
 		if(ptr) {
 			printf(" [%d] ", ptr->key); //출력
 
@@ -351,21 +351,21 @@ int deleteNode(Node* head, int key) //데이터에 맞는 노드 삭제 하는 �
 
 	ptr->key = candidate->key;
 
-	free(candidate);
+	free(candidate); //동적할당해제
 	return 1;
 }
 
 
-void freeNode(Node* ptr)
+void freeNode(Node* ptr)// 트리에 할당된 모든 메모리를 해제 하는 함수
 {
-	if(ptr) {
-		freeNode(ptr->left);
-		freeNode(ptr->right);
-		free(ptr);
+	if(ptr) { // 트리에 할당된 모든 메모리를 해제
+		freeNode(ptr->left); //왼쪽 하위 노드로 이동하고 다시freeNode
+		freeNode(ptr->right); //오른쪽 하위 노드로 이동하고 다시 freeNode
+		free(ptr);  //동적할당 해제
 	}
 }
 
-int freeBST(Node* head)
+int freeBST(Node* head) //트리에 할당된 모든 메모리를 해제 하는 함수 해드도
 {
 
 	if(head->left == head) // 자기 자신일때
@@ -374,17 +374,17 @@ int freeBST(Node* head)
 		return 1; //리턴1
 	}
 
-	Node* p = head->left; //
+	Node* p = head->left; // Node형 포인터 구조체 p선언 해드 노드의 왼쪽 하위 주소 대입
 
-	freeNode(p);
+	freeNode(p);// 트리에 할당된 모든 메모리를 해제
 
-	free(head);
-	return 1;
+	free(head);// 해드 해제
+	return 1; //리턴 1
 }
 
 
 
-Node* pop()
+Node* pop() //스택에 추가하는 함수
 {
 	if (top < 0) return NULL; //스택이 비었을 경우
 	return stack[top--];
@@ -396,7 +396,7 @@ void push(Node* aNode)
 }
 
 
-void printStack()
+void printStack() 
 {
 	int i = 0;
 	printf("--- stack ---\n");
