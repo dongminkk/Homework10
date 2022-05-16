@@ -21,8 +21,8 @@ Node* queue[MAX_QUEUE_SIZE]; //Node형 포인터 배열 queue선언 20만큼
 int front = -1;
 int rear = -1;
 
-Node* deQueue();
-void enQueue(Node* aNode);
+Node* deQueue(); //큐에 element를 빼내는 함수 
+void enQueue(Node* aNode); //큐에 element을 추가 하는 함수
 
 int initializeBST(Node** h);  //초기화 함수
 
@@ -43,9 +43,9 @@ void printStack();
 
 int main()
 {
-	char command;
-	int key;
-	Node* head = NULL;
+	char command;  // 문자형 변수 선언
+	int key; // / int형 변수 선언 트리 노드에 넣을 키를 받음
+	Node* head = NULL; // 해드 노드 선언
 	printf("[----- [kim dongmin] [2017038093] -----]\n");
 
 	do{
@@ -60,35 +60,35 @@ int main()
 		printf("----------------------------------------------------------------\n");
 
 		printf("Command = ");
-		scanf(" %c", &command);
+		scanf(" %c", &command); //기능 선택
 
 		switch(command) {
 		case 'z': case 'Z':
-			initializeBST(&head);
+			initializeBST(&head); //초기화
 			break;
 		case 'q': case 'Q':
-			freeBST(head);
+			freeBST(head); //트리에 할당된 모든 메모리를 해제
 			break;
 		case 'i': case 'I':
 			printf("Your Key = ");
-			scanf("%d", &key);
-			insert(head, key);
+			scanf("%d", &key); //키값 입력받음
+			insert(head, key); //트리에 노드 삽입
 			break;
-		case 'd': case 'D':
+		case 'd': case 'D': 
 			printf("Your Key = ");
-			scanf("%d", &key);
-			deleteNode(head, key);
+			scanf("%d", &key); //키값 입력받음
+			deleteNode(head, key); //키에 맞는 노드 삭제
 			break;
 
 		case 'r': case 'R':
-			recursiveInorder(head->left);
+			recursiveInorder(head->left); //중위 순회하여 트리 출력
 			break;
 		case 't': case 'T':
-			iterativeInorder(head->left);
+			iterativeInorder(head->left); // 반복적인 중위 순회 하여 출력
 			break;
 
 		case 'l': case 'L':
-			levelOrder(head->left);
+			levelOrder(head->left); //레벨 순서 순회 히여 출력
 			break;
 
 		case 'p': case 'P':
@@ -96,11 +96,11 @@ int main()
 			break;
 
 		default:
-			printf("\n       >>>>>   Concentration!!   <<<<<     \n");
+			printf("\n       >>>>>   Concentration!!   <<<<<     \n"); //잘못입력에 대한 오류 처리
 			break;
 		}
 
-	}while(command != 'q' && command != 'Q');
+	}while(command != 'q' && command != 'Q'); //'q' && 'Q' 이면 반복문 종료
 
 	return 1;
 }
@@ -108,20 +108,20 @@ int main()
 int initializeBST(Node** h) {
 
 	/* if the tree is not empty, then remove all allocated nodes from the tree*/
-	if(*h != NULL)
-		freeBST(*h);
+	if(*h != NULL) //해드가 가리키는 곳이 널이 아니면 
+		freeBST(*h); //트리에 할당된 모든 메모리를 해제
 
-	/* create a head node */
-	*h = (Node*)malloc(sizeof(Node));
+	/* create a head node */ //해드를 만들어줌 초기상태
+	*h = (Node*)malloc(sizeof(Node)); //동적할당
 	(*h)->left = NULL;	/* root */
-	(*h)->right = *h;
-	(*h)->key = -9999;
+	(*h)->right = *h; //자기자신 
+	(*h)->key = -9999;  // 데이터
 
-	top = -1;
+	top = -1; //top -1
 
 	front = rear = -1;
 
-	return 1;
+	return 1; //리턴 1
 }
 
 
@@ -138,25 +138,25 @@ void recursiveInorder(Node* ptr) //중위 순회 함수
 /**
  * textbook: p 224
  */
-void iterativeInorder(Node* node)
+void iterativeInorder(Node* node) // 반복적인 중위 순회 하여 출력
 {
 	for(;;)
 	{
-		for(; node; node = node->left)
-			push(node);
-		node = pop();
+		for(; node; node = node->left) 
+			push(node); //스텍에 삽입
+		node = pop(); //스택에서 삭제
 
-		if(!node) break;
-		printf(" [%d] ", node->key);
+		if(!node) break; // 공백 스택
+		printf(" [%d] ", node->key); // 출력
 
-		node = node->right;
+		node = node->right; // 노드에  다음 노드 대입
 	}
 }
 
 /**
  * textbook: p 225
  */
-void levelOrder(Node* ptr)
+void levelOrder(Node* ptr) //레벨 순서 순회 히여 출력
 {
 	// int front = rear = -1;
 
@@ -168,7 +168,7 @@ void levelOrder(Node* ptr)
 	{
 		ptr = deQueue();
 		if(ptr) {
-			printf(" [%d] ", ptr->key);
+			printf(" [%d] ", ptr->key); //출력
 
 			if(ptr->left)
 				enQueue(ptr->left);
@@ -368,13 +368,13 @@ void freeNode(Node* ptr)
 int freeBST(Node* head)
 {
 
-	if(head->left == head)
+	if(head->left == head) // 자기 자신일때
 	{
-		free(head);
-		return 1;
+		free(head); //해드 동적할당 해제
+		return 1; //리턴1
 	}
 
-	Node* p = head->left;
+	Node* p = head->left; //
 
 	freeNode(p);
 
@@ -386,13 +386,13 @@ int freeBST(Node* head)
 
 Node* pop()
 {
-	if (top < 0) return NULL;
+	if (top < 0) return NULL; //스택이 비었을 경우
 	return stack[top--];
 }
 
 void push(Node* aNode)
 {
-	stack[++top] = aNode;
+	stack[++top] = aNode; //노드에 추가
 }
 
 
